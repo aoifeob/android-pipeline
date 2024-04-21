@@ -1,4 +1,4 @@
-package com.example.composetutorial.model
+package com.example.composetutorial.model.card
 
 data class Card (
 
@@ -15,12 +15,14 @@ data class Card (
     //TODO: support EUR and USD prices
     var price: Double,
 
-    var quantity: Int
+    var quantity: Int,
+
+    var colours: List<CardColour>
 
 ) {
 
     fun getDisplayPrice() : String {
-        return "€%.${2}f".format(price);
+        return "€%.${2}f".format(price)
     }
 
     fun getDisplayName() : String {
