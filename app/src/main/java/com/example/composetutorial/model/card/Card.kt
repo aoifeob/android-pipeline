@@ -26,7 +26,7 @@ data class Card (
     }
 
     fun getDisplayName() : String {
-        return "$name ($set)"
+        return "($set) $name"
     }
 
 }

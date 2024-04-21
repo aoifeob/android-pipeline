@@ -1,4 +1,6 @@
-package com.example.composetutorial.model
+package com.example.composetutorial.model.collection
+
+import com.example.composetutorial.model.card.Card
 
 data class Folder (
 
