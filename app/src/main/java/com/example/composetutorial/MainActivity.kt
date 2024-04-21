@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainView() {
         CardboardCompanionTheme {
-            collectionActivity.CollectionView(modifier = Modifier.fillMaxSize())
+            collectionActivity.NavMenu()
             //scannerActivity.ScannerView()
         }
     }

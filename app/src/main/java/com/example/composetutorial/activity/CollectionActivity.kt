@@ -24,26 +24,41 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composetutorial.R
-import com.example.composetutorial.model.Card
+import com.example.composetutorial.model.card.Card
+import com.example.composetutorial.model.card.CardColour
 import com.example.composetutorial.ui.theme.CardboardCompanionTheme
+import kotlinx.coroutines.launch
 
 class CollectionActivity : ComponentActivity() {
 
@@ -51,7 +66,7 @@ class CollectionActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CardboardCompanionTheme {
-                CollectionView(modifier = Modifier.fillMaxSize())
+                NavMenu()
             }
         }
     }
@@ -62,9 +77,11 @@ class CollectionActivity : ComponentActivity() {
         //val isLibraryEmpty by remember { mutableStateOf(true) }
 
         val isLibraryEmpty by rememberSaveable { mutableStateOf(false) }
+        val searchParam by rememberSaveable { mutableStateOf("") }
+        val sortParam by rememberSaveable { mutableStateOf("") }
+        val filterParams by rememberSaveable { mutableStateOf("") }
 
         Column {
-            NavBar()
             Surface(modifier = modifier.weight(1f), color = MaterialTheme.colorScheme.background) {
                 if (isLibraryEmpty) {
                     OnboardingScreen()
@@ -76,47 +93,139 @@ class CollectionActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun NavBar() {
-        Surface(color = MaterialTheme.colorScheme.primary, modifier = Modifier.fillMaxWidth()) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+    fun NavMenu() {
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        val scope = rememberCoroutineScope()
+        fun closeDrawer() = scope.launch { drawerState.close() }
+
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                ModalDrawerSheet {
+                    Text(
+                        "Menu",
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Divider()
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Scan New Card",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_photo_camera_24),
+                                contentDescription = null
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            /*TODO: Navigate to Screen*/
+                            closeDrawer()
+                        }
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "View Collection",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_folder_24),
+                                contentDescription = null
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            /*TODO: Navigate to Screen*/
+                            closeDrawer()
+                        })
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Add New Folder",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_create_new_folder_24),
+                                contentDescription = null
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            /*TODO: Navigate to Screen*/
+                            closeDrawer()
+                        })
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "How to Use",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_question_mark_24),
+                                contentDescription = null
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            /*TODO: Navigate to Screen*/
+                            closeDrawer()
+                        })
+                }
+            },
+            gesturesEnabled = true
+        ) {
+            Scaffold(
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                "My Collection",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                scope.launch { drawerState.open() }
+                            }, content = {
+                                Icon(
+                                    imageVector = Icons.Default.Menu, contentDescription = null
+                                )
+                            })
+                        },
+                        actions = {
+                            SettingsMenu()
+                        }
+                    )
+                }
             ) {
-                NavMenu()
-                Text(
-                    text = "My Collection",
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 10.dp)
-                )
-                SettingsMenu()
+                CollectionView(modifier = Modifier.padding(it))
             }
         }
     }
 
     @Composable
-    fun NavMenu() {
-        var expanded by rememberSaveable { mutableStateOf(false) }
-        Button(onClick = { expanded = !expanded }) {
-            Icon(imageVector = Icons.Default.Menu, contentDescription = null)
-        }
-
-        /*TODO: display navigation menu when expanded:
-            - Scan New Cards
-            - My Collection
-                - Sub-folders
-            - Add New Folder
-            - How To Use
-     */
-    }
-
-    @Composable
     fun SettingsMenu() {
         var expanded by rememberSaveable { mutableStateOf(false) }
-        Button(onClick = { expanded = !expanded }) {
+        IconButton(onClick = { expanded = !expanded }) {
             Icon(imageVector = Icons.Default.Settings, contentDescription = null)
         }
 
@@ -230,27 +339,29 @@ class CollectionActivity : ComponentActivity() {
     @Composable
     fun CardPreview(card: Card) {
         Surface {
-            if (card.quantity > 1) {
-                //TODO: make card count overhang image
-                Surface(
-                    Modifier
-                        .size(20.dp)
-                        .clip(CircleShape)
-                        .border(1.5.dp, MaterialTheme.colorScheme.outline, CircleShape)
-                ) {
-                    Text(
-                        text = card.quantity.toString(),
-                        style = MaterialTheme.typography.titleSmall,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
             Image(
                 painter = painterResource(id = card.image),
                 contentDescription = null,
                 modifier = Modifier
                     .size(350.dp)
             )
+            if (card.quantity > 1) {
+                Surface(
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(horizontal = 40.dp)
+                        .size(20.dp)
+                        .clip(CircleShape)
+                        .border(1.5.dp, Color.White, CircleShape)
+                ) {
+                    Text(
+                        text = card.quantity.toString(),
+                        style = MaterialTheme.typography.titleSmall,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                }
+            }
         }
     }
 
@@ -265,7 +376,9 @@ class CollectionActivity : ComponentActivity() {
                 text = card.getDisplayName(),
                 modifier = Modifier.padding(all = 4.dp),
                 color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.weight(1f))
             Surface(
@@ -317,17 +430,62 @@ class CollectionActivity : ComponentActivity() {
     @Composable
     fun CollectionViewPreview() {
         CardboardCompanionTheme {
-            CollectionView()
+            NavMenu()
         }
     }
 
     private fun getTestCardCollection(): List<Card> {
         return listOf(
-            Card(1, "Lightning Bolt", "2X2", 117, R.drawable.card_lightning_bolt_2x2_117, 2.30, 4),
-            Card(1, "Lightning Bolt", "CLB", 187, R.drawable.card_lightning_bolt_clb_187, 1.18, 2),
-            Card(1, "Humility", "TPR", 16, R.drawable.card_humility_tpr_16, 36.76, 1),
-            Card(1, "Horizon Canopy", "IMA", 240, R.drawable.card_horizon_canopy_ima_240, 5.25, 4),
-            Card(1, "Thalia's Lancers", "EMN", 47, R.drawable.card_thalia_s_lancers_emn_47, 0.45, 3)
+            Card(
+                1,
+                "Lightning Bolt",
+                "2X2",
+                117,
+                R.drawable.card_lightning_bolt_2x2_117,
+                2.30,
+                4,
+                listOf(CardColour.RED)
+            ),
+            Card(
+                1,
+                "Lightning Bolt",
+                "CLB",
+                187,
+                R.drawable.card_lightning_bolt_clb_187,
+                1.18,
+                2,
+                listOf(CardColour.RED)
+            ),
+            Card(
+                1,
+                "Humility",
+                "TPR",
+                16,
+                R.drawable.card_humility_tpr_16,
+                36.76,
+                1,
+                listOf(CardColour.WHITE)
+            ),
+            Card(
+                1,
+                "Horizon Canopy",
+                "IMA",
+                240,
+                R.drawable.card_horizon_canopy_ima_240,
+                5.25,
+                4,
+                listOf(CardColour.GREEN, CardColour.WHITE)
+            ),
+            Card(
+                1,
+                "Thalia's Lancers",
+                "EMN",
+                47,
+                R.drawable.card_thalia_s_lancers_emn_47,
+                0.45,
+                3,
+                listOf(CardColour.WHITE)
+            )
         )
     }
 
