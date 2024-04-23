@@ -7,5 +7,4 @@ enum class SortParam(display: String) {
     PRICE_DESC ("Price (Descending)"),
     SET_ASC ("Set (Ascending)"),
     SET_DESC ("Set (Descending)"),
-    COLOUR("Colour (WUBRG)"),
 }
