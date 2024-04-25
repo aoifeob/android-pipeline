@@ -1,11 +1,10 @@
 package com.example.cardboardcompanion.ui.navigation
 
 import androidx.compose.runtime.Composable
-import com.example.cardboardcompanion.ui.screen.CollectionScreen
-import com.example.cardboardcompanion.ui.screen.ScannerScreen
-import com.example.cardboardcompanion.ui.screen.TutorialScreen
 import com.example.cardboardcompanion.R
 import com.example.cardboardcompanion.ui.screen.CollectionLayout
+import com.example.cardboardcompanion.ui.screen.ScannerScreen
+import com.example.cardboardcompanion.ui.screen.TutorialScreen
 
 interface Destination {
     val icon: Int

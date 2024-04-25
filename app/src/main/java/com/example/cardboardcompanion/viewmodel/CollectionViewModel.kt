@@ -84,7 +84,6 @@ class CollectionViewModel : ViewModel() {
 
     private fun sortCollection(sortParam: SortParam) : List<Card> {
         return when (sortParam){
-            SortParam.NAME_ASC -> visibleCards.sortedBy { it.name }
             SortParam.NAME_DESC -> visibleCards.sortedByDescending { it.name }
             SortParam.SET_ASC -> visibleCards.sortedBy { it.set }
             SortParam.SET_DESC -> visibleCards.sortedByDescending { it.set }

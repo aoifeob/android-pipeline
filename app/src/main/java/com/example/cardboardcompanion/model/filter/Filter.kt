@@ -3,7 +3,7 @@ package com.example.cardboardcompanion.model.filter
 import com.example.cardboardcompanion.model.card.CardColour
 
 interface Filter {
-    var type: FilterType;
+    var type: FilterType
 }
 
 data class PriceFilter(
@@ -23,8 +23,9 @@ data class ColourFilter(
 ) : Filter
 
 enum class FilterType(display: String) {
-    NONE("None"),
     PRICE ("Price"),
     SET ("Set"),
-    COLOUR("Colour")
+    COLOUR("Colour");
+
+    var displayName = display
 }

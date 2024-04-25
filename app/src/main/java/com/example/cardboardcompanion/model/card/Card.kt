@@ -35,7 +35,10 @@ enum class CardColour(display: String, image: Int) {
     BLACK("Black", R.drawable.mtg_colour_black),
     RED("Red", R.drawable.mtg_colour_red),
     GREEN("Green", R.drawable.mtg_colour_green),
-    COLOURLESS("Colourless", R.drawable.mtg_colour_colourless)
+    COLOURLESS("Colourless", R.drawable.mtg_colour_colourless);
+
+    var displayName = display
+    var displayImage = image
 }
 
 data class DetectedCard(

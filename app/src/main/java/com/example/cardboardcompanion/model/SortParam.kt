@@ -6,5 +6,8 @@ enum class SortParam(display: String) {
     PRICE_ASC ("Price (Ascending)"),
     PRICE_DESC ("Price (Descending)"),
     SET_ASC ("Set (Ascending)"),
-    SET_DESC ("Set (Descending)"),
+    SET_DESC ("Set (Descending)");
+
+    var displayName = display
+
 }
