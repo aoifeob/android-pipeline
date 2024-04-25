@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Compose Tutorial"
+rootProject.name = "Cardboard Companion"
 include(":app")
  

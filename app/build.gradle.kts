@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.composetutorial"
+    namespace = "com.example.cardboardcompanion"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.composetutorial"
+        applicationId = "com.example.cardboardcompanion"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
