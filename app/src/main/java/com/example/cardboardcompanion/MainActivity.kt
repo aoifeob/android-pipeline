@@ -18,8 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cardboardcompanion.ui.component.TopNavBar
-import com.example.cardboardcompanion.ui.navigation.Scanner
-import com.example.cardboardcompanion.ui.navigation.Tutorial
+import com.example.cardboardcompanion.ui.navigation.Collection
 import com.example.cardboardcompanion.ui.navigation.topBarNavScreens
 import com.example.cardboardcompanion.ui.theme.CardboardCompanionTheme
 
@@ -38,7 +37,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val currentBackStack by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackStack?.destination
-            val currentScreen = topBarNavScreens.find { it.route == currentDestination?.route } ?: Tutorial
+            val currentScreen = topBarNavScreens.find { it.route == currentDestination?.route } ?: Collection
 
             Scaffold(
                 topBar = {
@@ -53,16 +52,16 @@ class MainActivity : ComponentActivity() {
             ) { innerPadding ->
                 NavHost(
                     navController = navController,
-                    startDestination = Tutorial.route,
+                    startDestination = Collection.route,
                     modifier = Modifier.padding(innerPadding)
                 ) {
-                    composable(route = Scanner.route) {
-                        Text(Scanner.title)
-                        Scanner.screen()
-                    }
-                    composable(route = Tutorial.route) {
-                        Text(Tutorial.title)
-                        Tutorial.screen()
+                    topBarNavScreens.forEach {
+                        val title = it.title
+                        val screen = it.screen
+                        composable(route = it.route) {
+                            Text(title)
+                            screen()
+                        }
                     }
                 }
             }
