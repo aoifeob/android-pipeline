@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -43,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cardboardcompanion.R
+import com.example.cardboardcompanion.model.SortParam
 import com.example.cardboardcompanion.model.card.Card
 import com.example.cardboardcompanion.ui.theme.CardboardCompanionTheme
 import com.example.cardboardcompanion.viewmodel.CollectionViewModel
@@ -62,7 +66,9 @@ fun CollectionLayout(
                 OnboardingScreen()
             } else {
                 CollectionScreen(
-                    cards
+                    cards,
+                    collectionViewModel.sortParam,
+                    { collectionViewModel.updateCollection(it) }
                 )
             }
         }
@@ -71,12 +77,17 @@ fun CollectionLayout(
 
 @Composable
 fun CollectionScreen(
-    cards: List<Card>
+    cards: List<Card>,
+    sortParam: SortParam,
+    onSortParamUpdated: (SortParam) -> Unit
 ) {
 
     Column {
 
-        CustomiseResultsMenu(        )
+        CustomiseResultsMenu(
+            sortParam,
+            onSortParamUpdated
+        )
 
         CardCollection(cards)
 
@@ -93,6 +104,8 @@ fun CollectionLayout() {
 
 @Composable
 private fun CustomiseResultsMenu(
+    sortParam: SortParam,
+    onSortParamUpdated: (SortParam) -> Unit
 ) {
     Surface(color = MaterialTheme.colorScheme.secondary, modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -103,7 +116,7 @@ private fun CustomiseResultsMenu(
             Spacer(modifier = Modifier.weight(1f))
             FilterMenu()
             Spacer(modifier = Modifier.weight(1f))
-            SortMenu()
+            SortMenu(sortParam, onSortParamUpdated)
         }
     }
 }
@@ -158,7 +171,7 @@ private fun FilterMenu(
 }
 
 @Composable
-private fun SortMenu() {
+private fun SortMenu(sortParam: SortParam, onSortParamUpdated: (SortParam) -> Unit) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     Button(
         onClick = { expanded = !expanded },
@@ -170,6 +183,26 @@ private fun SortMenu() {
         )
     }
 
+    Box {
+        DropdownMenu(expanded = expanded,
+            onDismissRequest = { expanded = !expanded }) {
+            SortParam.entries.forEach {
+                DropdownMenuItem(text = {
+                    Text(
+                        it.display,
+                        color = if (sortParam == it) MaterialTheme.colorScheme.primary else Color.Black,
+                    )
+                },
+                    onClick = {
+                        expanded = !expanded
+                        if (sortParam != it) {
+                            onSortParamUpdated(it)
+                        }
+                    })
+            }
+        }
+
+    }
 }
 
 @Composable
