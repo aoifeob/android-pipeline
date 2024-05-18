@@ -15,10 +15,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,7 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.cardboardcompanion.model.card.Card
 import com.example.cardboardcompanion.ui.component.OnboardingScreen
 import com.example.cardboardcompanion.ui.theme.CardboardCompanionTheme
@@ -36,23 +35,26 @@ import com.example.cardboardcompanion.viewmodel.InsightsViewModel
 fun InsightsLayout() {
     InsightsLayout(
         modifier = Modifier,
-        insightsViewModel = viewModel()
+        insightsViewModel = hiltViewModel<InsightsViewModel>()
     )
 }
 
 @Composable
 private fun InsightsLayout(
-    insightsViewModel: InsightsViewModel = viewModel(),
+    insightsViewModel: InsightsViewModel,
     modifier: Modifier
 ) {
-    val insightsUiState by insightsViewModel.uiState.collectAsState()
-    val collectionValue by rememberSaveable { mutableStateOf(insightsUiState.collectionValue) }
-    val topCards by rememberSaveable { mutableStateOf(insightsUiState.topCards) }
-    val isLibraryEmpty by rememberSaveable { mutableStateOf(insightsUiState.topCards.isEmpty()) }
+    LaunchedEffect(key1 = true, block = {
+        insightsViewModel.getInsights()
+    })
+
+    val collectionValue by insightsViewModel.collectionValue.collectAsStateWithLifecycle()
+    val topCards by insightsViewModel.topCardCollection.collectAsStateWithLifecycle()
+    val isCollectionEmpty by insightsViewModel.isCollectionEmpty.collectAsStateWithLifecycle()
 
     Column(modifier = modifier) {
         Surface(modifier = modifier.weight(1f), color = MaterialTheme.colorScheme.background) {
-            if (isLibraryEmpty) {
+            if (isCollectionEmpty) {
                 OnboardingScreen()
             } else {
                 InsightsScreen(collectionValue, topCards)

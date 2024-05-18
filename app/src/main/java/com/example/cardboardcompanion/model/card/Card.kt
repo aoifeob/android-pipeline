@@ -1,16 +1,28 @@
 package com.example.cardboardcompanion.model.card
 
+import androidx.room.Dao
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.Query
 import com.example.cardboardcompanion.R
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
+@Entity(tableName = "cards")
 data class Card(
-    var id: Long,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
     var name: String,
+    @SerialName("set_code")
     var set: String,
+    @SerialName("collector_no")
     var collectorNo: Int,
     var image: Int,
     var price: Double,
-    var quantity: Int,
-    var colours: List<CardColour>
+    var quantity: Int
 ) {
 
     fun getDisplayPrice(): String {
@@ -21,35 +33,82 @@ data class Card(
         return "($set) $name"
     }
 
-}
-
-data class CardCollection(var collection: List<Card>){
-    fun isEmpty() : Boolean {
-        return collection.isEmpty()
-    }
-}
-
-enum class CardColour(var display: String, var image: Int) {
-    WHITE("White", R.drawable.mtg_colour_white),
-    BLUE("Blue", R.drawable.mtg_colour_blue),
-    BLACK("Black", R.drawable.mtg_colour_black),
-    RED("Red", R.drawable.mtg_colour_red),
-    GREEN("Green", R.drawable.mtg_colour_green),
-    COLOURLESS("Colourless", R.drawable.mtg_colour_colourless)
-}
-
-data class DetectedCard(
-    var name: String,
-    var set: String,
-    var collectorNo: String,
-    var price: Double
-) {
-
     fun getDisplayDetails(): String {
         return "$name ($set $collectorNo)"
     }
 
-    fun getDisplayPrice(): String {
-        return "€$price"
+}
+
+@Dao
+interface CardDao {
+    @Query("SELECT * FROM cards ORDER BY name ASC")
+    fun getCards(): Flow<List<Card>> = flow {
+        emit(
+            getTestCardCollection()
+        )
     }
+
+    @Query("SELECT * FROM cards WHERE quantity > 0 ORDER BY name ASC")
+    fun getOwnedCards(): Flow<List<Card>> = flow {
+        emit(
+            getTestCardCollection()
+        )
+    }
+
+    @Query("SELECT * FROM cards WHERE quantity > 0 ORDER BY price DESC LIMIT 5")
+    fun getTopOwnedCardsByPrice(): Flow<List<Card>> = flow {
+        emit(
+            getTestCardCollection().sortedByDescending { it.price }.take(5)
+        )
+    }
+}
+
+private fun getTestCardCollection(): List<Card> {
+    return listOf(
+        Card(
+            1,
+            "Lightning Bolt",
+            "2X2",
+            117,
+            R.drawable.card_lightning_bolt_2x2_117,
+            2.30,
+            4
+        ),
+        Card(
+            1,
+            "Lightning Bolt",
+            "CLB",
+            187,
+            R.drawable.card_lightning_bolt_clb_187,
+            1.18,
+            2
+        ),
+        Card(
+            1,
+            "Humility",
+            "TPR",
+            16,
+            R.drawable.card_humility_tpr_16,
+            36.76,
+            1
+        ),
+        Card(
+            1,
+            "Horizon Canopy",
+            "IMA",
+            240,
+            R.drawable.card_horizon_canopy_ima_240,
+            5.25,
+            4
+        ),
+        Card(
+            1,
+            "Thalia's Lancers",
+            "EMN",
+            47,
+            R.drawable.card_thalia_s_lancers_emn_47,
+            0.45,
+            3
+        )
+    )
 }

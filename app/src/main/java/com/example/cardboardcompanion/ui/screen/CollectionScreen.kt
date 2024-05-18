@@ -20,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +30,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +48,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.cardboardcompanion.R
 import com.example.cardboardcompanion.model.SortParam
 import com.example.cardboardcompanion.model.card.Card
@@ -62,24 +62,26 @@ import kotlin.math.roundToInt
 @Composable
 fun CollectionLayout() {
     CollectionLayout(
-        modifier = Modifier,
-        collectionViewModel = viewModel()
+        collectionViewModel = hiltViewModel<CollectionViewModel>(),
+        modifier = Modifier
     )
 }
 
 @Composable
 private fun CollectionLayout(
-    collectionViewModel: CollectionViewModel = viewModel(),
+    collectionViewModel: CollectionViewModel,
     modifier: Modifier
 ) {
-    val collectionUiState by collectionViewModel.uiState.collectAsState()
-    val cards = collectionViewModel.visibleCards
-    val isLibraryEmpty by rememberSaveable { mutableStateOf(collectionUiState.cardCollection.isEmpty()) }
-    val priceFilterSliderRange by remember { mutableStateOf(collectionViewModel.minPriceRestriction..collectionViewModel.maxPriceRestriction) }
+    LaunchedEffect(key1 = true, block = {
+        collectionViewModel.getOwnedCards()
+    })
+
+    val cards by collectionViewModel.cardCollection.collectAsStateWithLifecycle()
+    val isCollectionEmpty by collectionViewModel.isCollectionEmpty.collectAsStateWithLifecycle()
 
     Column {
         Surface(modifier = modifier.weight(1f), color = MaterialTheme.colorScheme.background) {
-            if (isLibraryEmpty) {
+            if (isCollectionEmpty) {
                 OnboardingScreen()
             } else {
                 CollectionScreen(
@@ -90,8 +92,7 @@ private fun CollectionLayout(
                     collectionViewModel.sortParam,
                     { collectionViewModel.onSortExecuted(it) },
                     collectionViewModel.filter,
-                    { collectionViewModel.onFilterExecuted(it) },
-                    priceFilterSliderRange
+                    { collectionViewModel.onFilterExecuted(it) }
                 )
             }
         }
@@ -108,8 +109,7 @@ private fun CollectionScreen(
     sortParam: SortParam,
     onSortParamUpdated: (SortParam) -> Unit,
     filter: Filter?,
-    onFilterExecuted: (Filter?) -> Unit,
-    sliderRange: ClosedFloatingPointRange<Float>
+    onFilterExecuted: (Filter?) -> Unit
 ) {
 
     Column {
@@ -121,8 +121,7 @@ private fun CollectionScreen(
             sortParam,
             onSortParamUpdated,
             filter,
-            onFilterExecuted,
-            sliderRange
+            onFilterExecuted
         )
 
         if (isActiveSearch && searchParam.isNotBlank()) {
@@ -162,8 +161,7 @@ private fun CustomiseResultsMenu(
     sortParam: SortParam,
     onSortParamUpdated: (SortParam) -> Unit,
     filter: Filter?,
-    onFilterExecuted: (Filter?) -> Unit,
-    sliderRange: ClosedFloatingPointRange<Float>
+    onFilterExecuted: (Filter?) -> Unit
 ) {
     Surface(color = MaterialTheme.colorScheme.secondary, modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -172,7 +170,7 @@ private fun CustomiseResultsMenu(
         ) {
             SearchMenu(searchParam, onSearchParamUpdated, onSearchExecuted)
             Spacer(modifier = Modifier.weight(1f))
-            FilterMenu(filter, onFilterExecuted, sliderRange)
+            FilterMenu(filter, onFilterExecuted)
             Spacer(modifier = Modifier.weight(1f))
             SortMenu(sortParam, onSortParamUpdated)
         }
@@ -212,7 +210,7 @@ private fun SearchMenu(
                 },
                 content = {},
                 active = true,
-                onActiveChange = { },
+                onActiveChange = { }
             )
         }
     }
@@ -221,14 +219,13 @@ private fun SearchMenu(
 @Composable
 private fun FilterMenu(
     filter: Filter?,
-    onFilterExecuted: (Filter?) -> Unit,
-    sliderRange: ClosedFloatingPointRange<Float>
+    onFilterExecuted: (Filter?) -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     val currentMinPrice = if (filter?.minPrice == null) 0f else filter.minPrice.toFloat()
     val currentMaxPrice =
-        if (filter?.maxPrice == null) sliderRange.endInclusive else filter.maxPrice.toFloat()
+        if (filter?.maxPrice == null) 100f else filter.maxPrice.toFloat()
     var sliderPosition by remember { mutableStateOf(currentMinPrice..currentMaxPrice) }
 
     var minPrice: Double? = filter?.minPrice
@@ -246,7 +243,7 @@ private fun FilterMenu(
     }
     if (expanded) {
         Dialog(onDismissRequest = { expanded = !expanded }) {
-            Card(
+            androidx.compose.material3.Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(375.dp)
@@ -265,16 +262,20 @@ private fun FilterMenu(
                     )
                     RangeSlider(
                         value = sliderPosition,
-                        steps = 15,
-                        onValueChange = { range -> sliderPosition = range.start.roundToInt().toFloat()..range.endInclusive.roundToInt().toFloat() },
-                        valueRange = sliderRange,
+                        steps = 20,
+                        onValueChange = { range ->
+                            sliderPosition =
+                                range.start.roundToInt().toFloat()..range.endInclusive.roundToInt()
+                                    .toFloat()
+                        },
+                        valueRange = 0f..100f,
                         onValueChangeFinished = {
                             minPrice =
                                 if (sliderPosition.start.toInt() == (0))
                                     null
                                 else sliderPosition.start.toDouble()
                             maxPrice =
-                                if (sliderPosition.endInclusive.toInt() == (sliderRange.endInclusive.toInt()))
+                                if (sliderPosition.endInclusive.toInt() == (100))
                                     null
                                 else sliderPosition.endInclusive.toDouble()
                         },
