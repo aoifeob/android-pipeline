@@ -65,10 +65,6 @@ jobs:
           new-string: ${{ secrets.FIREBASE_SERVICE_ACC_CERT_URL }}
           without-checkout: true
 
-  distribute-apk:
-    needs: []
-    runs-on: ubuntu-latest
-    steps:
       - name: Generate Debug APK and Distribute to Testers via Firebase
         run: ./gradlew assembleDebug appDistributionUploadDebug
 
