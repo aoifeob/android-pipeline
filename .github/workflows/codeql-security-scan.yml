@@ -13,7 +13,7 @@ name: "CodeQL"
 
 on:
   repository_dispatch:
-    types: [security-scan]
+    types: [codeql-scan]
   schedule:
     - cron: '30 7 * * 1'
   workflow_dispatch:
