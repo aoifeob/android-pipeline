@@ -63,15 +63,6 @@ jobs:
         distribution: temurin
         java-version: 21
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
-
-    - name: Change gradle wrapper permissions
-      run: chmod +x ./gradlew
-
-    - name: Build with Gradle
-      run: ./gradlew --no-daemon assemble
-
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -94,12 +85,8 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        echo 'If you are using a "manual" build mode for one or more of the' \
-          'languages you are analyzing, replace this with the commands to build' \
-          'your code, for example:'
-        echo '  make bootstrap'
-        echo '  make release'
-        exit 1
+        chmod +x ./gradlew
+        ./gradlew --no-daemon assemble
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
