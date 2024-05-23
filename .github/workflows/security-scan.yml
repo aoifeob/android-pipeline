@@ -16,6 +16,7 @@ on:
     types: [security-scan]
   schedule:
     - cron: '30 7 * * 1'
+  workflow_dispatch:
 
 jobs:
   analyze:
