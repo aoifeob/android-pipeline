@@ -25,42 +25,14 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - name: Add secrets to google-services.json
+      - name: Inject secrets
         run: |
           sed -i 's/replace-with-firebase-key/${{ secrets.FIREBASE_KEY }}/g' app/google-services.json
+          sed -i 's/replace-with-firebase-service-account-key-id/${{ secrets.FIREBASE_SERVICE_ACC_KEY_ID }}/g' firebase-service-account.json
+          sed -i 's/replace-with-firebase-service-account-key/${{ secrets.FIREBASE_SERVICE_ACC_KEY }}/g' firebase-service-account.json
+          sed -i 's/replace-with-firebase-service-account-client-id/${{ secrets.FIREBASE_SERVICE_ACC_CLIENT_ID }}/g' firebase-service-account.json
+          sed -i 's/replace-with-firebase-service-account-cert-url/${{ secrets.FIREBASE_SERVICE_ACC_CERT_URL }}/g' firebase-service-account.json
 
-#      - name: Add secrets to firebase-service-account.json
-#        uses: MathieuSoysal/replace-string-in-file@v1.1.0
-#        with:
-#          file: app/firebase-service-account.json
-#          old-string: replace-with-firebase-service-account-key-id
-#          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_KEY_ID }}
-#          without-checkout: true
-#
-#      - name: Add secrets to firebase-service-account.json
-#        uses: MathieuSoysal/replace-string-in-file@v1.1.0
-#        with:
-#          file: app/firebase-service-account.json
-#          old-string: replace-with-firebase-service-account-key
-#          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_KEY }}
-#          without-checkout: true
-#
-#      - name: Add secrets to firebase-service-account.json
-#        uses: MathieuSoysal/replace-string-in-file@v1.1.0
-#        with:
-#          file: app/firebase-service-account.json
-#          old-string: replace-with-firebase-service-account-client-id
-#          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_CLIENT_ID }}
-#          without-checkout: true
-#
-#      - name: Add secrets to firebase-service-account.json
-#        uses: MathieuSoysal/replace-string-in-file@v1.1.0
-#        with:
-#          file: app/firebase-service-account.json
-#          old-string: replace-with-firebase-service-account-cert-url
-#          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_CERT_URL }}
-#          without-checkout: true
-#
 #      - name: Generate Debug APK and Distribute to Testers via Firebase
 #        run: ./gradlew assembleDebug appDistributionUploadDebug
 #
