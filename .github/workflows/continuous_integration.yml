@@ -19,7 +19,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Java
@@ -51,7 +51,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout sources
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Java from Build Cache
@@ -66,11 +66,23 @@ jobs:
 
   run-codeql-security-scan:
     needs: build
-    uses: ./.github/workflows/codeql-security-scan.yml@main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Call CodeQL Action
+        uses: ./.github/workflows/codeql-security-scan.yml@main
 
   run-gitleaks-security-scan:
     needs: build
-    uses: ./github/workflows/codeql-security-scan.yml@main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Call CodeQL Action
+        uses: ./.github/workflows/gitleaks-security-scan.yml@main
 
   notify-slack:
     needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
