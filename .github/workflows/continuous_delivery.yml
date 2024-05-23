@@ -31,13 +31,15 @@ jobs:
           file: app/google-services.json
           old-string: replace-with-firebase-key
           new-string: ${{ secrets.FIREBASE_KEY }}
+          without-checkout: true
 
-      - name: Add secrets to firebase-service-account.json
-        uses: MathieuSoysal/replace-string-in-file@v1.1.0
-        with:
-          file: app/firebase-service-account.json
-          old-string: replace-with-firebase-service-account-key-id
-          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_KEY_ID }}
+#      - name: Add secrets to firebase-service-account.json
+#        uses: MathieuSoysal/replace-string-in-file@v1.1.0
+#        with:
+#          file: app/firebase-service-account.json
+#          old-string: replace-with-firebase-service-account-key-id
+#          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_KEY_ID }}
+#          without-checkout: true
 
       - name: Add secrets to firebase-service-account.json
         uses: MathieuSoysal/replace-string-in-file@v1.1.0
@@ -45,6 +47,7 @@ jobs:
           file: app/firebase-service-account.json
           old-string: replace-with-firebase-service-account-key
           new-string: ${{ secrets.FIREBASE_SERVICE_ACC_KEY }}
+          without-checkout: true
 
       - name: Add secrets to firebase-service-account.json
         uses: MathieuSoysal/replace-string-in-file@v1.1.0
@@ -52,6 +55,7 @@ jobs:
           file: app/firebase-service-account.json
           old-string: replace-with-firebase-service-account-client-id
           new-string: ${{ secrets.FIREBASE_SERVICE_ACC_CLIENT_ID }}
+          without-checkout: true
 
       - name: Add secrets to firebase-service-account.json
         uses: MathieuSoysal/replace-string-in-file@v1.1.0
@@ -59,7 +63,12 @@ jobs:
           file: app/firebase-service-account.json
           old-string: replace-with-firebase-service-account-cert-url
           new-string: ${{ secrets.FIREBASE_SERVICE_ACC_CERT_URL }}
+          without-checkout: true
 
+  distribute-apk:
+    needs: []
+    runs-on: ubuntu-latest
+    steps:
       - name: Generate Debug APK and Distribute to Testers via Firebase
         run: ./gradlew assembleDebug appDistributionUploadDebug
 
