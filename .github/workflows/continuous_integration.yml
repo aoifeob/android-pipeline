@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: detekt_results
-          path: ci/reports/detekt
+          path: app/build/reports/detekt
 
       - name: Build with Gradle
         run: ./gradlew assemble
