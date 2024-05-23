@@ -58,16 +58,18 @@ android {
 }
 
 detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
-    baseline = file("$projectDir/detekt-baseline.xml") // a way of suppressing issues before introducing detekt
+    buildUponDefaultConfig = true
+    allRules = false
+    baseline = file("$projectDir/detekt-baseline.xml")
 }
 
 tasks.withType<Detekt>().configureEach {
     reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with GitHub Code Scanning
-        md.required.set(true) // simple Markdown format
+        html.required.set(true)
+        md.required.set(false)
+        sarif.required.set(false)
+        txt.required.set(false)
+        xml.required.set(false)
     }
 }
 
