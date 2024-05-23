@@ -13,9 +13,9 @@ name: "CodeQL"
 
 on:
   repository_dispatch:
-    [security-scan]
+    types: [security-scan]
   schedule:
-    - cron: '39 18 * * 1'
+    - cron: '30 7 * * 1'
 
 jobs:
   analyze:
