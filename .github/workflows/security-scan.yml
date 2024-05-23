@@ -63,6 +63,9 @@ jobs:
         distribution: temurin
         java-version: 21
 
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+
     - name: Change gradle wrapper permissions
       run: chmod +x ./gradlew
 
