@@ -33,7 +33,7 @@ jobs:
         run: chmod +x ./gradlew
         
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew assemble
 
       - name: Run Unit Tests with Gradle
         run: gradle app:testDebugUnitTest
