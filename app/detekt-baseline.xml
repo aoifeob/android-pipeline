@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:CameraContent.kt$@Composable fun CameraContent(onCardTextDetected: (List&lt;String&gt;) -&gt; Unit)</ID>
+    <ID>FunctionNaming:CameraContent.kt$@Preview @Composable fun PreviewCameraContent()</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable fun CollectionLayout()</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable fun DropDownCardOptionsMenu( card: Card, onDeleteClick: (Card) -&gt; Unit )</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun Card(card: Card, onDeleteClick: (Card) -&gt; Unit)</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun CardCollection(cards: List&lt;Card&gt;, onDeleteClick: (Card) -&gt; Unit)</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun CardDetails(card: Card)</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun CardPreview(card: Card, onDeleteClick: (Card) -&gt; Unit)</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun CollectionLayout( collectionViewModel: CollectionViewModel, modifier: Modifier )</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun CollectionScreen( cards: List&lt;Card&gt;, searchParam: String, isActiveSearch: Boolean, onSearchParamUpdated: (String) -&gt; Unit, onSearchExecuted: (String) -&gt; Unit, sortParam: SortParam, onSortParamUpdated: (SortParam) -&gt; Unit, filter: Filter?, onFilterExecuted: (Filter?) -&gt; Unit, onDeleteClick: (Card) -&gt; Unit )</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun CustomiseResultsMenu( searchParam: String, onSearchParamUpdated: (String) -&gt; Unit, onSearchExecuted: (String) -&gt; Unit, sortParam: SortParam, onSortParamUpdated: (SortParam) -&gt; Unit, filter: Filter?, onFilterExecuted: (Filter?) -&gt; Unit )</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun FilterMenu( filter: Filter?, onFilterExecuted: (Filter?) -&gt; Unit )</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Composable private fun SortMenu(sortParam: SortParam, onSortParamUpdated: (SortParam) -&gt; Unit)</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun SearchMenu( searchParam: String, onSearchParamUpdated: (String) -&gt; Unit, onSearchExecuted: (String) -&gt; Unit )</ID>
+    <ID>FunctionNaming:CollectionScreen.kt$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable private fun CollectionViewPreview()</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Composable fun InsightsLayout()</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Composable private fun Card(card: Card)</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Composable private fun CardDisplay(card: Card)</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Composable private fun CollectionValueDisplay(collectionValue: String)</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Composable private fun InsightsLayout( insightsViewModel: InsightsViewModel, modifier: Modifier )</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Composable private fun InsightsScreen( collectionValue: String, topCards: List&lt;Card&gt;, )</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Composable private fun TopCardsCollection(cards: List&lt;Card&gt;)</ID>
+    <ID>FunctionNaming:InsightsScreen.kt$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable private fun InsightsViewPreview()</ID>
+    <ID>FunctionNaming:MainActivity.kt$MainActivity$@Composable fun MainView()</ID>
+    <ID>FunctionNaming:MainActivity.kt$MainActivity$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable fun MainViewPreview()</ID>
+    <ID>FunctionNaming:OnboardingContent.kt$@Composable fun OnboardingContent(modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:ScannerScreen.kt$@Composable fun ConfirmCardDialog( detectedCard: ScryfallCard, onDismissRequest: () -&gt; Unit, onConfirmAddCard: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:ScannerScreen.kt$@Composable fun IdentifyScreen( viewModel: ScannerViewModel )</ID>
+    <ID>FunctionNaming:ScannerScreen.kt$@Composable fun ScannerScreen()</ID>
+    <ID>FunctionNaming:ScannerScreen.kt$@Composable fun ValidationErrorDialog( validationError: CardValidationError, onDismissRequest: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:ScannerScreen.kt$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable fun ConfirmPreview()</ID>
+    <ID>FunctionNaming:ScannerScreen.kt$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable fun ScannerViewPreview()</ID>
+    <ID>FunctionNaming:Theme.kt$@Composable fun CardboardCompanionTheme( darkTheme: Boolean = isSystemInDarkTheme(), // Dynamic color is available on Android 12+ dynamicColor: Boolean = true, content: @Composable () -&gt; Unit )</ID>
+    <ID>FunctionNaming:TopNavBar.kt$@Composable private fun NavBarItem( text: String, iconPath: Int, onClick: () -&gt; Unit, selected: Boolean )</ID>
+    <ID>FunctionNaming:TopNavBar.kt$@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") @OptIn(ExperimentalMaterial3Api::class) @Composable fun TopNavBar( allScreens: List&lt;Destination&gt;, onScreenSelected: (Destination) -&gt; Unit, currentScreen: Destination )</ID>
+    <ID>FunctionNaming:TutorialScreen.kt$@Composable fun TutorialScreen()</ID>
+    <ID>FunctionNaming:TutorialScreen.kt$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable fun TutorialViewPreview()</ID>
+    <ID>LongMethod:CollectionScreen.kt$@Composable private fun FilterMenu( filter: Filter?, onFilterExecuted: (Filter?) -&gt; Unit )</ID>
+    <ID>LongMethod:ScannerScreen.kt$@Composable fun ConfirmCardDialog( detectedCard: ScryfallCard, onDismissRequest: () -&gt; Unit, onConfirmAddCard: () -&gt; Unit )</ID>
+    <ID>LongMethod:ScannerScreen.kt$@Composable fun ValidationErrorDialog( validationError: CardValidationError, onDismissRequest: () -&gt; Unit )</ID>
+    <ID>LongMethod:TopNavBar.kt$@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") @OptIn(ExperimentalMaterial3Api::class) @Composable fun TopNavBar( allScreens: List&lt;Destination&gt;, onScreenSelected: (Destination) -&gt; Unit, currentScreen: Destination )</ID>
+    <ID>LongParameterList:CollectionScreen.kt$( cards: List&lt;Card&gt;, searchParam: String, isActiveSearch: Boolean, onSearchParamUpdated: (String) -&gt; Unit, onSearchExecuted: (String) -&gt; Unit, sortParam: SortParam, onSortParamUpdated: (SortParam) -&gt; Unit, filter: Filter?, onFilterExecuted: (Filter?) -&gt; Unit, onDeleteClick: (Card) -&gt; Unit )</ID>
+    <ID>LongParameterList:CollectionScreen.kt$( searchParam: String, onSearchParamUpdated: (String) -&gt; Unit, onSearchExecuted: (String) -&gt; Unit, sortParam: SortParam, onSortParamUpdated: (SortParam) -&gt; Unit, filter: Filter?, onFilterExecuted: (Filter?) -&gt; Unit )</ID>
+    <ID>MagicNumber:CollectionScreen.kt$100f</ID>
+    <ID>MagicNumber:Color.kt$0xFF625b71</ID>
+    <ID>MagicNumber:Color.kt$0xFF6650a4</ID>
+    <ID>MagicNumber:Color.kt$0xFF7D5260</ID>
+    <ID>MagicNumber:Color.kt$0xFFCCC2DC</ID>
+    <ID>MagicNumber:Color.kt$0xFFD0BCFF</ID>
+    <ID>MagicNumber:Color.kt$0xFFEFB8C8</ID>
+    <ID>MagicNumber:Color.kt$0xFFFFFFFF</ID>
+    <ID>MagicNumber:InsightsScreen.kt$3</ID>
+    <ID>MagicNumber:InsightsScreen.kt$4</ID>
+    <ID>MagicNumber:InsightsScreen.kt$5</ID>
+    <ID>MagicNumber:InsightsViewModel.kt$InsightsViewModel$5</ID>
+    <ID>MagicNumber:ScannerScreen.kt$0.10</ID>
+    <ID>MagicNumber:ScannerScreen.kt$0.75f</ID>
+    <ID>MagicNumber:ScannerScreen.kt$20</ID>
+    <ID>MagicNumber:ScannerScreen.kt$40</ID>
+    <ID>MatchingDeclarationName:Worker.kt$PriceUpdateWorker : CoroutineWorker</ID>
+    <ID>MaxLineLength:CardFixture.kt$ScryfallImageSource("https://cards.scryfall.io/normal/front/7/6/76a31968-ba6d-4c01-838f-4cb8c64e73fb.jpg?1712355363")</ID>
+    <ID>MaxLineLength:LocalCollectionRepositoryTest.kt$LocalCollectionRepositoryTest$fun</ID>
+    <ID>MaxLineLength:LocalCollectionRepositoryTest.kt$LocalCollectionRepositoryTest$val expectedResult = testCollection.filter { it.price &lt;= filter.maxPrice!! &amp;&amp; it.price &gt;= filter.minPrice!! }.sortedBy { it.name }</ID>
+    <ID>MaxLineLength:ScannerScreen.kt$"Ensure the whole card is visible on screen and that the image is in focus and try again."</ID>
+    <ID>MaxLineLength:TutorialScreen.kt$"Cardboard Companion uses OCR to automatically recognise the card name, set, and collector number of cards scanned using your device's camera.\n\n"</ID>
+    <ID>MaxLineLength:TutorialScreen.kt$"If you experience any problems with card scanning, please ensure the full card is visible with the camera, and that the image is focused."</ID>
+    <ID>MaxLineLength:TutorialScreen.kt$"You will be given the opportunity to confirm the card details before it is added to your collection.\n\n"</ID>
+    <ID>MaxLineLength:TutorialScreen.kt$Column</ID>
+    <ID>NewLineAtEndOfFile:AppModule.kt$com.example.cardboardcompanion.di.AppModule.kt</ID>
+    <ID>NewLineAtEndOfFile:CameraContent.kt$com.example.cardboardcompanion.ui.component.CameraContent.kt</ID>
+    <ID>NewLineAtEndOfFile:Card.kt$com.example.cardboardcompanion.model.card.Card.kt</ID>
+    <ID>NewLineAtEndOfFile:CardRepository.kt$com.example.cardboardcompanion.data.repository.CardRepository.kt</ID>
+    <ID>NewLineAtEndOfFile:CardTest.kt$com.example.cardboardcompanion.model.card.CardTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CardboardCompanionApp.kt$com.example.cardboardcompanion.CardboardCompanionApp.kt</ID>
+    <ID>NewLineAtEndOfFile:CollectionDatabase.kt$com.example.cardboardcompanion.data.CollectionDatabase.kt</ID>
+    <ID>NewLineAtEndOfFile:CollectionRepository.kt$com.example.cardboardcompanion.data.repository.CollectionRepository.kt</ID>
+    <ID>NewLineAtEndOfFile:CollectionScreen.kt$com.example.cardboardcompanion.ui.screen.CollectionScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:CollectionViewModel.kt$com.example.cardboardcompanion.viewmodel.CollectionViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:Color.kt$com.example.cardboardcompanion.ui.theme.Color.kt</ID>
+    <ID>NewLineAtEndOfFile:Filter.kt$com.example.cardboardcompanion.model.filter.Filter.kt</ID>
+    <ID>NewLineAtEndOfFile:InsightsScreen.kt$com.example.cardboardcompanion.ui.screen.InsightsScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:LocalCollectionRepositoryTest.kt$com.example.cardboardcompanion.data.repository.LocalCollectionRepositoryTest.kt</ID>
+    <ID>NewLineAtEndOfFile:MainActivity.kt$com.example.cardboardcompanion.MainActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:NetworkCardDataSource.kt$com.example.cardboardcompanion.data.source.NetworkCardDataSource.kt</ID>
+    <ID>NewLineAtEndOfFile:NetworkCardDataSourceTest.kt$com.example.cardboardcompanion.data.source.NetworkCardDataSourceTest.kt</ID>
+    <ID>NewLineAtEndOfFile:NetworkCardRepositoryTest.kt$com.example.cardboardcompanion.data.repository.NetworkCardRepositoryTest.kt</ID>
+    <ID>NewLineAtEndOfFile:PriceUpdateWorkManager.kt$com.example.cardboardcompanion.domain.scheduled.manager.PriceUpdateWorkManager.kt</ID>
+    <ID>NewLineAtEndOfFile:ScannerViewModel.kt$com.example.cardboardcompanion.viewmodel.ScannerViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:ScryfallApiService.kt$com.example.cardboardcompanion.data.sevice.ScryfallApiService.kt</ID>
+    <ID>NewLineAtEndOfFile:ScryfallCardTest.kt$com.example.cardboardcompanion.model.card.ScryfallCardTest.kt</ID>
+    <ID>NewLineAtEndOfFile:SortParam.kt$com.example.cardboardcompanion.model.SortParam.kt</ID>
+    <ID>NewLineAtEndOfFile:Theme.kt$com.example.cardboardcompanion.ui.theme.Theme.kt</ID>
+    <ID>NewLineAtEndOfFile:TopNavBar.kt$com.example.cardboardcompanion.ui.component.TopNavBar.kt</ID>
+    <ID>NewLineAtEndOfFile:TutorialScreen.kt$com.example.cardboardcompanion.ui.screen.TutorialScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:Type.kt$com.example.cardboardcompanion.ui.theme.Type.kt</ID>
+    <ID>NewLineAtEndOfFile:Worker.kt$com.example.cardboardcompanion.domain.scheduled.worker.Worker.kt</ID>
+    <ID>ReturnCount:CollectionRepository.kt$LocalCollectionRepository$private fun matchesFilters(filter: Filter?, card: Card): Boolean</ID>
+    <ID>ReturnCount:NetworkCardDataSource.kt$NetworkCardDataSource$suspend fun validateCard( set: String, collectorNo: String ): Either&lt;CardValidationError, ScryfallCard?&gt;</ID>
+    <ID>SwallowedException:NetworkCardDataSource.kt$NetworkCardDataSource$e: HttpException</ID>
+    <ID>SwallowedException:NetworkCardDataSource.kt$NetworkCardDataSource$e: IOException</ID>
+    <ID>TooManyFunctions:CollectionRepository.kt$LocalCollectionRepository : CollectionRepository</ID>
+    <ID>TooManyFunctions:CollectionScreen.kt$com.example.cardboardcompanion.ui.screen.CollectionScreen.kt</ID>
+    <ID>TopLevelPropertyNaming:CardFixture.kt$const val testCollectorNo = "34"</ID>
+    <ID>TopLevelPropertyNaming:CardFixture.kt$const val testName = "Take Up the Shield"</ID>
+    <ID>TopLevelPropertyNaming:CardFixture.kt$const val testPrice = 0.07</ID>
+    <ID>TopLevelPropertyNaming:CardFixture.kt$const val testSet = "otj"</ID>
+    <ID>UnusedPrivateMember:CollectionScreen.kt$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable private fun CollectionViewPreview()</ID>
+    <ID>UnusedPrivateMember:InsightsScreen.kt$@Preview(name = "Light Mode") @Preview( uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode" ) @Composable private fun InsightsViewPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

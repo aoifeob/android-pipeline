@@ -31,9 +31,22 @@ jobs:
         
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
-        
+
+      - name: Perform static analysis
+        run: ./gradlew detekt
+
+      - name: Upload detekt build report
+        uses: actions/upload-artifact@v2
+        with:
+          name: detekt_results
+          path: ci/reports/detekt
+
       - name: Build with Gradle
         run: ./gradlew assemble
 
+  run-unit-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Run Unit Tests with Gradle
         run: gradle app:testDebugUnitTest
