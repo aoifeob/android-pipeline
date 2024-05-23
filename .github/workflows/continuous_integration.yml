@@ -86,7 +86,11 @@ jobs:
 
   notify-slack:
     needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
-    uses: slackapi/slack-github-action@v1.26.0
-    with:
-        channel-id: 'C074WKL8J66'
-        slack-message: "Pull request ready for review: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C074WKL8J66'
+          slack-message: "Pull request ready for review: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
