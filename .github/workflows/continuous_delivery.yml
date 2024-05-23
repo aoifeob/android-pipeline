@@ -50,6 +50,13 @@ jobs:
           old-string: replace-with-firebase-service-account-client-id
           new-string: ${{ secrets.FIREBASE_SERVICE_ACC_CLIENT_ID }}
 
+      - name: Add secrets to firebase-service-account.json
+        uses: MathieuSoysal/replace-string-in-file@v1.1.0
+        with:
+          file: app/firebase-service-account.json
+          old-string: replace-with-firebase-service-account-cert-url
+          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_CERT_URL }}
+
       - name: Generate Debug APK and Distribute to Testers via Firebase
         run: ./gradlew assembleDebug appDistributionUploadDebug
 
