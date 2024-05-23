@@ -60,3 +60,11 @@ jobs:
 
       - name: Run Unit Tests with Gradle
         run: gradle app:testDebugUnitTest
+
+  run-codeql-security-scan:
+    needs: build
+    uses: ./.github/workflows/codeql-security-scan.yml
+
+  run-gitleaks-security-scan:
+    needs: build
+    uses: ./github/workflows/codeql-security-scan.yml
