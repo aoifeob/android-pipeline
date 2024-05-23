@@ -39,10 +39,10 @@ jobs:
         build-mode: ${{ matrix.build-mode }}
 
     - if: matrix.build-mode == 'manual'
-      shell: bash
+      uses: gradle/actions/setup-gradle@v3
       run: |
         chmod +x ./gradlew
-        ./gradlew --no-daemon assemble
+        ./gradlew assemble
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
