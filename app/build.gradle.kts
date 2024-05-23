@@ -71,7 +71,6 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
-// Kotlin DSL
 tasks.withType<Detekt>().configureEach {
     jvmTarget = "1.8"
 }
