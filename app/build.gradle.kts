@@ -8,6 +8,8 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("io.gitlab.arturbosch.detekt") version "1.23.6"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
 }
 
 android {
@@ -28,6 +30,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            firebaseAppDistribution {
+                artifactType = "APK"
+                testers = "L00186082@atu.ie"
+            }
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -80,6 +88,10 @@ tasks.withType<DetektCreateBaselineTask>().configureEach {
     jvmTarget = "1.8"
 }
 
+firebaseAppDistribution {
+    serviceCredentialsFile="$rootDir/app/firebase-service-account.json"
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -114,6 +126,10 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.work.runtime.ktx.v281)
     implementation(libs.androidx.hilt.work.v100)
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-appdistribution:16.0.0-beta12")
+    implementation("com.google.firebase:firebase-appdistribution-api:16.0.0-beta12")
+    implementation("com.google.firebase:firebase-appdistribution-gradle:5.0.0")
 
     kapt(libs.hilt.android.compiler)
     kapt(libs.androidx.hilt.compiler)

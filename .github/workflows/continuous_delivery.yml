@@ -1,0 +1,49 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+  workflow_dispatch:
+
+jobs:
+  create-qa-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Add secrets to google-services.json
+        uses: MathieuSoysal/replace-string-in-file@v1.1.0
+        with:
+          file: app/google-services.json
+          old-string: replace-with-firebase-key
+          new-string: ${{ secrets.FIREBASE_KEY }}
+
+      - name: Add secrets to firebase-service-account.json
+        uses: MathieuSoysal/replace-string-in-file@v1.1.0
+        with:
+          file: app/firebase-service-account.json
+          old-string: replace-with-firebase-service-account-key
+          new-string: ${{ secrets.FIREBASE_SERVICE_ACC_KEY }}
+
+      - name: Generate Debug APK and Distribute to Testers via Firebase
+        run: ./gradlew assembleDebug appDistributionUploadDebug
+
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C074WKL8J66'
+          slack-message: "QA build created: ${{ github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
