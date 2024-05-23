@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - feature/*
     paths-ignore:
       - '*.md'
   workflow_dispatch:
@@ -28,7 +29,7 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-        
+
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
@@ -62,24 +63,12 @@ jobs:
         run: gradle app:testDebugUnitTest
 
   run-codeql-security-scan:
+    uses: ./.github/workflows/codeql-security-scan.yml
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Call CodeQL Action
-        uses: ./.github/workflows/codeql-security-scan.yml
 
   run-gitleaks-security-scan:
+    uses: ./.github/workflows/gitleaks-security-scan.yml
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Call CodeQL Action
-        uses: ./.github/workflows/gitleaks-security-scan.yml
 
   notify-slack:
     needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
