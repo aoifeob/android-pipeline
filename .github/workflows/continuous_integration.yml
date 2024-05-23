@@ -8,6 +8,9 @@ on:
       - '*.md'
   workflow_dispatch:
 
+env:
+  SLACK_BOT_TOKEN = ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -63,8 +66,15 @@ jobs:
 
   run-codeql-security-scan:
     needs: build
-    uses: ./.github/workflows/codeql-security-scan.yml
+    uses: ./.github/workflows/codeql-security-scan.yml@main
 
   run-gitleaks-security-scan:
     needs: build
-    uses: ./github/workflows/codeql-security-scan.yml
+    uses: ./github/workflows/codeql-security-scan.yml@main
+
+  notify-slack:
+    needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
+    uses: slackapi/slack-github-action@v1.26.0
+    with:
+        channel-id: 'C074WKL8J66'
+        slack-message: "Pull request ready for review: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
