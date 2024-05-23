@@ -5,17 +5,14 @@ on:
   schedule:
     - cron: '30 7 * * 1'
 
+env:
+  GITHUB_TOKEN: ${{ secrets.CODEQL_TOKEN }}
+
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
-    permissions:
-      # required for all workflows
-      security-events: write
-
-      # required to fetch internal or private CodeQL packs
-      packages: read
 
     strategy:
       fail-fast: false
