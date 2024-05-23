@@ -1,9 +1,7 @@
 name: Gitleaks
 
 on:
-  repository_dispatch:
-    types: [gitleaks-scan]
-  workflow_dispatch:
+  workflow_call:
   schedule:
     - cron: '30 7 * * 1'
 
