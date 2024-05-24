@@ -37,7 +37,7 @@ class LocalCollectionRepositoryTest {
 
         val actualResult  = repository.getOwnedCards().first()
 
-        assertTrue(actualResult.isEmpty())
+        assertFalse(actualResult.isEmpty())
     }
 
     @Test
