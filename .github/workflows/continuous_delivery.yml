@@ -25,7 +25,7 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - name: Decrypt Firebase secrets
+      - name: Decrypt Firebase and Google Services secrets
         run: | 
           chmod +x script/decrypt.sh
           script/decrypt.sh
