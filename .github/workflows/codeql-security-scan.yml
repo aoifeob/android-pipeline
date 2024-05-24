@@ -41,7 +41,8 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        chmod +x ./gradlew --no-daemon assemble -x processDebugGoogleServices
+        chmod +x ./gradlew
+        ./gradlew --no-daemon assemble -x processDebugGoogleServices
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
