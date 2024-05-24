@@ -68,6 +68,14 @@ jobs:
           java-version: 21
           cache: gradle
 
+      - name: Decrypt Firebase and Google Services secrets
+        run: |
+          chmod +x script/decrypt.sh
+          script/decrypt.sh
+        env:
+          GOOGLE_SERVICES_KEY: ${{ secrets.GOOGLE_SERVICES_KEY }}
+          FIREBASE_SERVICE_ACC: ${{ secrets.FIREBASE_SERVICE_ACC }}
+
       - name: Run Unit Tests with Gradle
         run: gradle app:testDebugUnitTest
 
