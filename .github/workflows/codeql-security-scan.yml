@@ -17,6 +17,10 @@ jobs:
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
 
+    permissions:
+      security-events: write
+      packages: read
+
     strategy:
       fail-fast: false
       matrix:
