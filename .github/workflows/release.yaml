@@ -47,7 +47,7 @@ jobs:
           name: release-bundle
           path: app/build/outputs/bundle/release/app-release.aab
 
-  notify:
+  notify-success:
     needs: create-release-build
     runs-on: ubuntu-latest
     steps:
@@ -56,6 +56,19 @@ jobs:
         uses: slackapi/slack-github-action@v1.26.0
         with:
           channel-id: 'C074WKEJNBC'
-          slack-message: "Release build created: ${{ github.event.head_commit.url }}"
+          slack-message: "Release build created :muscle:"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
+
+  notify-failure:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C074WKEJNBC'
+          slack-message: "Release build failed :fire:"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}

@@ -1,12 +1,10 @@
 name: Continuous Delivery
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+      - release/*
     paths-ignore:
       - '*.md'
   workflow_dispatch:
@@ -42,7 +40,7 @@ jobs:
       - name: Generate Debug APK and Distribute to Testers via Firebase
         run: ./gradlew assembleDebug appDistributionUploadDebug
 
-  notify-qa:
+  notify-success:
     needs: create-qa-build
     runs-on: ubuntu-latest
     steps:
@@ -51,6 +49,19 @@ jobs:
         uses: slackapi/slack-github-action@v1.26.0
         with:
           channel-id: 'C074WKL8J66'
-          slack-message: "QA build created: ${{ github.event.head_commit.url }}"
+          slack-message: "QA build created :raised_hands:"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
+
+  notify-failure:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C074WKL8J66'
+          slack-message: "QA build failed :siren:"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
