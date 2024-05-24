@@ -7,6 +7,8 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.CODEQL_TOKEN }}
+  GOOGLE_SERVICES_KEY: ${{ secrets.GOOGLE_SERVICES_KEY }}
+  FIREBASE_SERVICE_ACC: ${{ secrets.FIREBASE_SERVICE_ACC }}
 
 jobs:
   analyze:
@@ -31,6 +33,11 @@ jobs:
         distribution: temurin
         java-version: 21
 
+    - name: Decrypt Firebase and Google Services secrets
+      run: |
+        chmod +x script/decrypt.sh
+        script/decrypt.sh
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -42,7 +49,7 @@ jobs:
       shell: bash
       run: |
         chmod +x ./gradlew
-        ./gradlew --no-daemon assemble -x processDebugGoogleServices
+        ./gradlew --no-daemon assemble
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
