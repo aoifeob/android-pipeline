@@ -48,7 +48,7 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          channel-id: 'C074WKL8J66'
+          channel-id: 'C074USQSFHT'
           slack-message: "QA build created :raised_hands:"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          channel-id: 'C074WKL8J66'
+          channel-id: 'C074USQSFHT'
           slack-message: "QA build failed :siren:"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
