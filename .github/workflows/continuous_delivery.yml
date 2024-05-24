@@ -26,7 +26,7 @@ jobs:
           cache: gradle
 
       - name: Decrypt Firebase secrets
-        run: scripts/decrypt_secret.sh
+        run: ls
         env:
           GOOGLE_SERVICES_KEY: ${{ secrets.GOOGLE_SERVICES_KEY }}
           FIREBASE_SERVICE_ACC: ${{ secrets.FIREBASE_SERVICE_ACC }}
