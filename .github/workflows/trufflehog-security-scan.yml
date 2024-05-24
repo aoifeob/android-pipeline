@@ -1,17 +1,13 @@
-name: Gitleaks
+name: Trufflehog
 
 on:
-  push:
-    branches:
-      - trufflehog
-  workflow_dispatch:
   workflow_call:
   schedule:
     - cron: '30 7 * * 1-5'
 
 jobs:
   scan:
-    name: TruffleHog Scan
+    name: Trufflehog Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,3 +18,17 @@ jobs:
         uses: trufflesecurity/trufflehog@v3.76.3
         with:
             extra-args: --issue-comments --pr-comments
+
+  notify-failure:
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    needs: scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C07540EB2KE'
+          slack-message: ":exclamation: Trufflehog Alert: Exposed Secrets Detected!"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}

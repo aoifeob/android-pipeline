@@ -84,9 +84,9 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/codeql-security-scan.yml
 
-  run-gitleaks-security-scan:
+  run-trufflehog-security-scan:
     needs: build
-    uses: ./.github/workflows/gitleaks-security-scan.yml
+    uses: ./.github/workflows/trufflehog-security-scan.yml
 
   notify-success:
     needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
