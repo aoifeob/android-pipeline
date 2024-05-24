@@ -1,7 +1,6 @@
 name: Gitleaks
 
 on:
-  workflow_dispatch:
   workflow_call:
   schedule:
     - cron: '30 7 * * 1-5'
@@ -17,3 +16,17 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2.3.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify-failure:
+    if: ${{ always() && github.ref == 'refs/heads/main' && contains(join(needs.*.result, ','), 'failure') }}
+    needs: scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C07540EB2KE'
+          slack-message: ":exclamation: Gitleaks Alert: Exposed Secrets Detected!"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}

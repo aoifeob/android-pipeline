@@ -1,7 +1,6 @@
 name: "CodeQL"
 
 on:
-  workflow_dispatch:
   workflow_call:
   schedule:
     - cron: '30 7 * * 1-5'
@@ -56,3 +55,17 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
+  notify-failure:
+    if: ${{ always() && github.ref == 'refs/heads/main' && contains(join(needs.*.result, ','), 'failure') }}
+    needs: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C07540EB2KE'
+          slack-message: ":exclamation: CodeQL Alert: Vulnerability Detected!"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}

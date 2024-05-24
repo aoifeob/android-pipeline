@@ -89,6 +89,7 @@ jobs:
     uses: ./.github/workflows/gitleaks-security-scan.yml
 
   notify-success:
+    if: ${{ github.event_name == 'pull_request' }}
     needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
     runs-on: ubuntu-latest
     steps:
@@ -102,7 +103,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
 
   notify-failure:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    if: ${{ always() && github.event_name == 'pull_request' && contains(join(needs.*.result, ','), 'failure') }}
     needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
     runs-on: ubuntu-latest
     steps:
