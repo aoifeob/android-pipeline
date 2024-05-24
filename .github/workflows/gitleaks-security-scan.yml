@@ -1,7 +1,6 @@
 name: Gitleaks
 
 on:
-  workflow_dispatch:
   workflow_call:
   schedule:
     - cron: '30 7 * * 1-5'
