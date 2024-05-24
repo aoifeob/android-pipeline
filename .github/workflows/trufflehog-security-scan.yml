@@ -1,6 +1,9 @@
 name: Gitleaks
 
 on:
+  push:
+    branches:
+      - trufflehog
   workflow_dispatch:
   workflow_call:
   schedule:
