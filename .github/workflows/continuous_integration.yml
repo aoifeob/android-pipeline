@@ -63,12 +63,12 @@ jobs:
         run: gradle app:testDebugUnitTest
 
   run-codeql-security-scan:
-    uses: ./.github/workflows/codeql-security-scan.yml
     needs: build
+    uses: ./.github/workflows/codeql-security-scan.yml
 
   run-gitleaks-security-scan:
-    uses: ./.github/workflows/gitleaks-security-scan.yml
     needs: build
+    uses: ./.github/workflows/gitleaks-security-scan.yml
 
   notify-slack:
     needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]

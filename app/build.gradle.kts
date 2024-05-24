@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.Packaging
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
