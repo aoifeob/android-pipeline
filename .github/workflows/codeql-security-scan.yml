@@ -31,14 +31,6 @@ jobs:
         distribution: temurin
         java-version: 21
 
-    - name: Decrypt Firebase and Google Services secrets
-      run: |
-        chmod +x script/decrypt.sh
-        script/decrypt.sh
-      env:
-        GOOGLE_SERVICES_KEY: ${{ secrets.GOOGLE_SERVICES_KEY }}
-        FIREBASE_SERVICE_ACC: ${{ secrets.FIREBASE_SERVICE_ACC }}
-
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -49,8 +41,7 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        chmod +x ./gradlew
-        ./gradlew --no-daemon assemble
+        chmod +x ./gradlew --no-daemon assemble -x processDebugGoogleServices
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
