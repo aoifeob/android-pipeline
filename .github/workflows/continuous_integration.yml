@@ -103,7 +103,7 @@ jobs:
 
   notify-failure:
     if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
-    needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
+    needs: [ build, run-unit-tests, run-codeql-security-scan, run-trufflehog-security-scan ]
     runs-on: ubuntu-latest
     steps:
       - name: Send Slack Notification
