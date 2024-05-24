@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.Packaging
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
@@ -8,6 +9,8 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("io.gitlab.arturbosch.detekt") version "1.23.6"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
 }
 
 android {
@@ -28,6 +31,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            firebaseAppDistribution {
+                artifactType = "APK"
+                testers = "L00186082@atu.ie"
+            }
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -52,22 +61,24 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/{AL2.0,LGPL2.1,DEPENDENCIES}"
         }
     }
 }
 
 detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
-    baseline = file("$projectDir/detekt-baseline.xml") // a way of suppressing issues before introducing detekt
+    buildUponDefaultConfig = true
+    allRules = false
+    baseline = file("$projectDir/detekt-baseline.xml")
 }
 
 tasks.withType<Detekt>().configureEach {
     reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with GitHub Code Scanning
-        md.required.set(true) // simple Markdown format
+        html.required.set(true)
+        md.required.set(false)
+        sarif.required.set(false)
+        txt.required.set(false)
+        xml.required.set(false)
     }
 }
 
@@ -76,6 +87,10 @@ tasks.withType<Detekt>().configureEach {
 }
 tasks.withType<DetektCreateBaselineTask>().configureEach {
     jvmTarget = "1.8"
+}
+
+firebaseAppDistribution {
+    serviceCredentialsFile="$rootDir/app/firebase-service-account.json"
 }
 
 dependencies {
@@ -112,6 +127,10 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.work.runtime.ktx.v281)
     implementation(libs.androidx.hilt.work.v100)
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-appdistribution:16.0.0-beta12")
+    implementation("com.google.firebase:firebase-appdistribution-api:16.0.0-beta12")
+    implementation("com.google.firebase:firebase-appdistribution-gradle:5.0.0")
 
     kapt(libs.hilt.android.compiler)
     kapt(libs.androidx.hilt.compiler)

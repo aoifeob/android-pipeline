@@ -1,12 +1,15 @@
 name: "CodeQL"
 
 on:
+  workflow_dispatch:
   workflow_call:
   schedule:
-    - cron: '30 7 * * 1'
+    - cron: '30 7 * * 1-5'
 
 env:
   GITHUB_TOKEN: ${{ secrets.CODEQL_TOKEN }}
+  GOOGLE_SERVICES_KEY: ${{ secrets.GOOGLE_SERVICES_KEY }}
+  FIREBASE_SERVICE_ACC: ${{ secrets.FIREBASE_SERVICE_ACC }}
 
 jobs:
   analyze:
@@ -30,6 +33,11 @@ jobs:
       with:
         distribution: temurin
         java-version: 21
+
+    - name: Decrypt Firebase and Google Services secrets
+      run: |
+        chmod +x script/decrypt.sh
+        script/decrypt.sh
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL

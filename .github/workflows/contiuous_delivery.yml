@@ -1,0 +1,68 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+    paths-ignore:
+      - '*.md'
+  workflow_dispatch:
+
+jobs:
+  create-qa-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Decrypt Firebase and Google Services secrets
+        run: | 
+          chmod +x script/decrypt.sh
+          script/decrypt.sh
+        env:
+          GOOGLE_SERVICES_KEY: ${{ secrets.GOOGLE_SERVICES_KEY }}
+          FIREBASE_SERVICE_ACC: ${{ secrets.FIREBASE_SERVICE_ACC }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Generate Debug APK and Distribute to Testers via Firebase
+        run: ./gradlew assembleDebug appDistributionUploadDebug
+
+  notify-success:
+    needs: create-qa-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C074USQSFHT'
+          slack-message: ":raised_hands: QA build created"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
+
+  notify-failure:
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    needs: create-qa-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C074USQSFHT'
+          slack-message: ":siren: QA build failed"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}

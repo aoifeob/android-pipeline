@@ -1,0 +1,3 @@
+#Ignore files decrypted during pipeline execution
+app/firebase-service-account.json
+app/google-services.json
