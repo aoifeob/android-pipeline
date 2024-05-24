@@ -57,7 +57,7 @@ jobs:
         category: "/language:${{matrix.language}}"
 
   notify-failure:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    if: ${{ always() && github.ref == 'refs/heads/main' && contains(join(needs.*.result, ','), 'failure') }}
     needs: analyze
     runs-on: ubuntu-latest
     steps:

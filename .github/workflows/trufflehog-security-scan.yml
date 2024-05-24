@@ -20,7 +20,7 @@ jobs:
             extra-args: --issue-comments --pr-comments
 
   notify-failure:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    if: ${{ always() && github.ref == 'refs/heads/main' && contains(join(needs.*.result, ','), 'failure') }}
     needs: scan
     runs-on: ubuntu-latest
     steps:
