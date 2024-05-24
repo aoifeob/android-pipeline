@@ -20,7 +20,7 @@ jobs:
 
   notify-failure:
     if: ${{ always() && github.ref == 'refs/heads/main' && contains(join(needs.*.result, ','), 'failure') }}
-    needs: analyze
+    needs: scan
     runs-on: ubuntu-latest
     steps:
       - name: Send Slack Notification
