@@ -93,7 +93,8 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_OAUTH_TOKEN }}
 
   notify-failure:
-    if: failure()
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    needs: [ build, run-unit-tests, run-codeql-security-scan, run-gitleaks-security-scan ]
     runs-on: ubuntu-latest
     steps:
       - name: Send Slack Notification
